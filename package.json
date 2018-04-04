@@ -1,0 +1,31 @@
+{
+  "name": "fleetGeoMon",
+  "version": "0.0.1",
+  "description": "A Node.js backend on resin.io for keeping track of the geo-location of a fleet of drones.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ftylitak/fleetGeoMon.git"
+  },
+  "keywords": [
+    "resin.io",
+    "server",
+    "nodejs",
+    "expressjs",
+	"geolocation",
+	"drone"
+  ],
+  "author": "Nikolaos Ftylitakis <ftylitak@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ftylitak/fleetGeoMon/issues"
+  },
+  "homepage": "https://github.com/ftylitak/fleetGeoMon#fleetgeomon",
+  "dependencies": {
+    "express": "*"
+  }
+}

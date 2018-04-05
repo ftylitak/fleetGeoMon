@@ -21,7 +21,7 @@ class DroneLocationStorage{
             currentRecord.lat === messageObj.lat )
         {
             console.log(`No movement, ignoring update of id: ${id}`);
-            return undefined;
+            return currentRecord;
         }
 
         messageObj.timestamp = Date.now();
@@ -55,18 +55,29 @@ class DroneLocationStorage{
         return undefined;
     }
 
-    getRecordsOlderThan(seconds) {
-        // lodash.find(users, function(user) {
-        //     return user.age < 18;
-        // })
+    getRecordsOlderThan(mSeconds) {
+        let now = Date.now();
+        let result = [];
+        for(let record of  this.locationDataPerID.values()) {
+            if((now - record.timestamp) > mSeconds)
+                result.push(record.id);
+        }
+        return result;
+
+        //to be investigated why it does not work
+        //return _.find(this.locationDataPerID.values(), function(record) {
+        //    return ((now - record.timestamp) > mSeconds);
+        //});
     }
 
     clear() {
         this.locationDataPerID = new Map();
     }
 
-    clearRecordsOlderThan(seconds) {
-
+    clearRecordsOlderThan(mSeconds) {
+        var idsToBeDeleted = this.getRecordsOlderThan(mSeconds);
+        for(let record of  idsToBeDeleted)
+            this.locationDataPerID.delete(record);
     }
 }
 

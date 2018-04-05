@@ -6,9 +6,9 @@ var expect = chai.expect;
 
 chai.use(chaiHttp);
 
-var server = require('../server.js');
+var server = require('../httpServer.js');
 
-describe('server', () => {
+describe('HTTP server', () => {
 
     it('ignore unrecognized url', function(done) { // <= Pass in done callback
         assert.isDefined(server);

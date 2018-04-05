@@ -1,14 +1,13 @@
-var express = require('express');
-var app = express();
+var http = require('http');
 
-// reply to request with "Hello World!"
-app.get('/', function (req, res) {
-  res.send('fleetGeoMon says hello');
-});
+//create a server object:
+http.createServer((req, res) => {
+    res.writeHead(200, {'Content-Type': 'text/html'});
 
-//start a server on port 80 and log its start to our console
-var server = app.listen(80, function () {
+    if(req.url === '/nonMovingDrones')
+        res.write(req.url); //write a response to the client
+    else
+        res.write(`Request ignored: ${req.url}`);
 
-  var port = server.address().port;
-  console.log('fleetGeoMon started listening on port ', port);
-});
+    res.end(); //end the response
+}).listen(8080); //the server object listens on port 8080

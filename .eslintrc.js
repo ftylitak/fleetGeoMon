@@ -13,7 +13,8 @@ module.exports = {
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module",
-        "jsx": true
+        "jsx": true,
+        "ecmaVersion": 2017
     },
     "rules": {
         "indent": [

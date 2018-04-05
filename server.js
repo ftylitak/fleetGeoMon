@@ -1,13 +1,20 @@
 var http = require('http');
 
 //create a server object:
-http.createServer((req, res) => {
+var httpServer = http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
 
     if(req.url === '/nonMovingDrones')
-        res.write(req.url); //write a response to the client
+        res.end(req.url); //write a response to the client
     else
-        res.write(`Request ignored: ${req.url}`);
+        res.end(`Request ignored: ${req.url}`);
+});
 
-    res.end(); //end the response
-}).listen(8080); //the server object listens on port 8080
+var httpServerApp = httpServer.listen(8080, () => {
+    let host = httpServerApp.address().address;
+    let port = httpServerApp.address().port;
+
+    console.log(`App listening at http://${host}:${port}`);
+});
+
+module.exports = httpServerApp;

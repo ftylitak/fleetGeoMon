@@ -1,4 +1,5 @@
 var http = require('http');
+var storage = require('./storage.js').locationStorage;
 
 let PORT = 8080;
 
@@ -6,8 +7,12 @@ let PORT = 8080;
 var httpServer = http.createServer((req, res) => {
     res.writeHead(200, {'Content-Type': 'text/html'});
 
-    if(req.url === '/nonMovingDrones')
-        res.end(req.url); //write a response to the client
+    if(req.url === '/nonMovingDrones') {
+        var result = storage.getRecordsOlderThan(10000);
+        if(result === undefined)
+            result = '';
+        res.end(JSON.stringify(result));
+    }
     else
         res.end(`Request ignored: ${req.url}`);
 });

@@ -1,7 +1,7 @@
 var http = require('http');
 var storage = require('./storage.js').locationStorage;
 
-let PORT = 8080;
+const PORT = 8080;
 
 //create the server that will be providing the UUID list of the non-moving drones
 var httpServer = http.createServer((req, res) => {

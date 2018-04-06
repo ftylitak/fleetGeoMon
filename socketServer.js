@@ -1,4 +1,4 @@
-let net = require('net');
+const net = require('net');
 let storage = require('./storage').locationStorage;
 const crypto = require('crypto');
 
@@ -53,14 +53,14 @@ dashboardSocketServer.on('connection', function(socket) {
 });
 
 let droneSocketServerApp = droneSocketServer.listen(DRONE_PORT,function() { //'listening' listener
-    let host = droneSocketServer.address().address;
-    let port = droneSocketServer.address().port;
+    const host = droneSocketServer.address().address;
+    const port = droneSocketServer.address().port;
     console.log(`drone socket server listening at http://${host}:${port}`);
 });
 
 let dashboardSocketServerApp = dashboardSocketServer.listen(DASHBOARD_PORT,function() { //'listening' listener
-    let host = dashboardSocketServer.address().address;
-    let port = dashboardSocketServer.address().port;
+    const host = dashboardSocketServer.address().address;
+    const port = dashboardSocketServer.address().port;
     console.log(`dashboard socket server listening at http://${host}:${port}`);
 });
 

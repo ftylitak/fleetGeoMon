@@ -1,4 +1,4 @@
-let http = require('http');
+const http = require('http');
 let storage = require('./storage.js').locationStorage;
 
 const PORT = 8080;
@@ -18,8 +18,8 @@ let httpServer = http.createServer((req, res) => {
 });
 
 let httpServerApp = httpServer.listen(PORT, () => {
-    let host = httpServerApp.address().address;
-    let port = httpServerApp.address().port;
+    const host = httpServerApp.address().address;
+    const port = httpServerApp.address().port;
 
     console.log(`HTTP server listening at http://${host}:${port}`);
 });

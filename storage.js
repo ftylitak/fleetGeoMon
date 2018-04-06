@@ -1,4 +1,4 @@
-let _=require('lodash');
+const _=require('lodash');
 
 class DroneLocationStorage{
     constructor() {
@@ -81,11 +81,5 @@ class DroneLocationStorage{
             this.locationDataPerID.delete(record);
     }
 }
-
-// let locationStorage;
-// if(locationStorage === undefined) {
-//     locationStorage = new DroneLocationStorage();
-//     console.log('create storage ' + JSON.stringify(locationStorage));
-// }
 
 module.exports.locationStorage = new DroneLocationStorage();

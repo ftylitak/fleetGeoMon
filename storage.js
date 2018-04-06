@@ -1,4 +1,4 @@
-var _=require('lodash');
+let _=require('lodash');
 
 class DroneLocationStorage{
     constructor() {
@@ -15,7 +15,7 @@ class DroneLocationStorage{
             return undefined;
         }
 
-        var currentRecord = this.locationDataPerID.get(id);
+        let currentRecord = this.locationDataPerID.get(id);
         if( currentRecord !== undefined &&
             currentRecord.long ===  messageObj.long &&
             currentRecord.lat === messageObj.lat )
@@ -76,13 +76,13 @@ class DroneLocationStorage{
     }
 
     clearRecordsOlderThan(mSeconds) {
-        var idsToBeDeleted = this.getRecordsOlderThan(mSeconds);
+        let idsToBeDeleted = this.getRecordsOlderThan(mSeconds);
         for(let record of  idsToBeDeleted)
             this.locationDataPerID.delete(record);
     }
 }
 
-// var locationStorage;
+// let locationStorage;
 // if(locationStorage === undefined) {
 //     locationStorage = new DroneLocationStorage();
 //     console.log('create storage ' + JSON.stringify(locationStorage));

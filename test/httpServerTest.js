@@ -1,17 +1,17 @@
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var assert = chai.assert;
-var expect = chai.expect;
-var storage = require('../storage.js').locationStorage;
-var _ = require('lodash');
-//var should = chai.should;
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+let assert = chai.assert;
+let expect = chai.expect;
+let storage = require('../storage.js').locationStorage;
+let _ = require('lodash');
+//let should = chai.should;
 
 chai.use(chaiHttp);
 
-var server = require('../httpServer.js');
+let server = require('../httpServer.js');
 
-var epocMsec;
-var originalDateNow = 1522951238123;
+let epocMsec;
+let originalDateNow = 1522951238123;
 
 function mockDateNow() {
     return epocMsec;
@@ -56,7 +56,7 @@ describe('HTTP server', () => {
     });
 
     it('recognize nonMovingDrones url path - non moving drones found', function(done) { // <= Pass in done callback
-        var objectArray = [];
+        let objectArray = [];
         objectArray.push( {long:31.9724315,lat:23.7573327} );
         objectArray.push( {long:32.9724315,lat:23.7573327} );
         objectArray.push( {long:33.9724315,lat:23.7573327} );

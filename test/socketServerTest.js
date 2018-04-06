@@ -1,14 +1,14 @@
-var chai = require('chai');
-var assert = chai.assert;
-var storage = require('../storage.js').locationStorage;
-var _ = require('lodash');
-var droneSocketServer = require('../socketServer.js').droneSocketServerApp;
-var dashboardSocketServer = require('../socketServer.js').dashboardSocketServerApp;
+let chai = require('chai');
+let assert = chai.assert;
+let storage = require('../storage.js').locationStorage;
+let _ = require('lodash');
+let droneSocketServer = require('../socketServer.js').droneSocketServerApp;
+let dashboardSocketServer = require('../socketServer.js').dashboardSocketServerApp;
 
-var net = require('net');
+let net = require('net');
 
-var droneClient = undefined;
-var dashboardClient = undefined;
+let droneClient = undefined;
+let dashboardClient = undefined;
 
 describe('HTTP server', () => {
 
@@ -42,7 +42,7 @@ describe('HTTP server', () => {
             dashboardSocketServer.close();
     });
 
-    var _createDroneSockets = (numberOfSockets) => {
+    let _createDroneSockets = (numberOfSockets) => {
         let socketArray = [];
         _.times(numberOfSockets, () => {
             let tmpSocket = new net.Socket();
@@ -52,8 +52,8 @@ describe('HTTP server', () => {
         return socketArray;
     };
 
-    var locationDataSent = [];
-    var _sendRandomLocationDataOnCollection = (socketArray, times) => {
+    let locationDataSent = [];
+    let _sendRandomLocationDataOnCollection = (socketArray, times) => {
         let count = 0;
         locationDataSent = [];
         _.times(times, () => {
@@ -66,7 +66,7 @@ describe('HTTP server', () => {
         });
     };
 
-    var _prepareDashboardSocket = () => {
+    let _prepareDashboardSocket = () => {
         dashboardClient.connect(8081, '127.0.0.1', function(){
             console.log('[t]: dashboard connected');
         });
@@ -157,7 +157,7 @@ describe('HTTP server', () => {
                 assert.equal(locationDataSent.length, locationInfoArray.length);
                 for(let receivedObject of locationInfoArray)
                 {
-                    var obj = _.filter(locationDataSent, x =>
+                    let obj = _.filter(locationDataSent, x =>
                         (x.long === receivedObject.long) && (x.lat === receivedObject.lat));
                     assert.isDefined(obj);
                 }

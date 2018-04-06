@@ -1,14 +1,14 @@
-var net = require('net');
-var storage = require('./storage').locationStorage;
+let net = require('net');
+let storage = require('./storage').locationStorage;
 const crypto = require('crypto');
 
 const DRONE_PORT = 8088;
 const DASHBOARD_PORT = 8081;
 
-var droneSocketServer = net.createServer();
-var dashboardSocketServer = net.createServer();
+let droneSocketServer = net.createServer();
+let dashboardSocketServer = net.createServer();
 
-var activeDashboardSockets = new Map();
+let activeDashboardSockets = new Map();
 
 droneSocketServer.on('connection', function(socket) {
     socket.id = crypto.randomBytes(16).toString('base64');
@@ -52,13 +52,13 @@ dashboardSocketServer.on('connection', function(socket) {
     });
 });
 
-var droneSocketServerApp = droneSocketServer.listen(DRONE_PORT,function() { //'listening' listener
+let droneSocketServerApp = droneSocketServer.listen(DRONE_PORT,function() { //'listening' listener
     let host = droneSocketServer.address().address;
     let port = droneSocketServer.address().port;
     console.log(`drone socket server listening at http://${host}:${port}`);
 });
 
-var dashboardSocketServerApp = dashboardSocketServer.listen(DASHBOARD_PORT,function() { //'listening' listener
+let dashboardSocketServerApp = dashboardSocketServer.listen(DASHBOARD_PORT,function() { //'listening' listener
     let host = dashboardSocketServer.address().address;
     let port = dashboardSocketServer.address().port;
     console.log(`dashboard socket server listening at http://${host}:${port}`);

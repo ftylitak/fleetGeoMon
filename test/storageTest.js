@@ -1,12 +1,12 @@
-var chai = require('chai');
-var _ = require('lodash');
-var assert = chai.assert;
-var expect = chai.expect;
+let chai = require('chai');
+let _ = require('lodash');
+let assert = chai.assert;
+let expect = chai.expect;
 
-var storage = require('../storage.js').locationStorage;
+let storage = require('../storage.js').locationStorage;
 
-var epocMsec;
-var originalDateNow = 1522951238123;
+let epocMsec;
+let originalDateNow = 1522951238123;
 
 function mockDateNow() {
     return epocMsec;
@@ -29,8 +29,8 @@ describe('Storage testing', () => {
     });
 
     it('insert 1 valid location string - with quotes in object', function() {
-        var objectStr = '{"long":"37.9724315","lat":"23.7573327"}';
-        var transformedObject = storage.insert(1, objectStr);
+        let objectStr = '{"long":"37.9724315","lat":"23.7573327"}';
+        let transformedObject = storage.insert(1, objectStr);
         assert.isDefined(transformedObject);
         expect(transformedObject).to.have.own.property('id');
         expect(transformedObject).to.have.own.property('timestamp');
@@ -39,8 +39,8 @@ describe('Storage testing', () => {
     });
 
     it('insert 1 valid location string - no quotes in value', function() {
-        var objectStr = '{"long":37.9724315,"lat":23.7573327}';
-        var transformedObject = storage.insert(1, objectStr);
+        let objectStr = '{"long":37.9724315,"lat":23.7573327}';
+        let transformedObject = storage.insert(1, objectStr);
         assert.isDefined(transformedObject);
         expect(transformedObject).to.have.own.property('id');
         expect(transformedObject).to.have.own.property('timestamp');
@@ -49,15 +49,15 @@ describe('Storage testing', () => {
     });
 
     it('insert 1 valid location string - no quotes', function() {
-        var objectStr = '{long:37.9724315,lat:23.7573327}';
-        var transformedObject = storage.insert(1, objectStr);
+        let objectStr = '{long:37.9724315,lat:23.7573327}';
+        let transformedObject = storage.insert(1, objectStr);
         assert.isUndefined(transformedObject);
         assert.equal(_.size(storage.locationDataPerID), 0);
     });
 
     it('insert valid location object', function() {
-        var objectStr = {long:37.9724315,lat:23.7573327};
-        var transformedObject = storage.insert(1, objectStr);
+        let objectStr = {long:37.9724315,lat:23.7573327};
+        let transformedObject = storage.insert(1, objectStr);
         assert.isDefined(transformedObject);
         expect(transformedObject).to.have.own.property('id');
         expect(transformedObject).to.have.own.property('timestamp');
@@ -66,16 +66,16 @@ describe('Storage testing', () => {
     });
 
     it('insert invalid object', function() {
-        var objectStr = new Map();
-        var transformedObject = storage.insert(1, objectStr);
+        let objectStr = new Map();
+        let transformedObject = storage.insert(1, objectStr);
         assert.isUndefined(transformedObject);
         assert.equal(_.size(storage.locationDataPerID), 0);
     });
 
     it('insert multiple objects', function() {
-        var object1 = {long:37.9724315,lat:23.7573327};
-        var object2Str = '{"long":"38.9724315","lat":"24.7573327"}';
-        var object3Str = '{"long":39.9724315,"lat":25.7573327}';
+        let object1 = {long:37.9724315,lat:23.7573327};
+        let object2Str = '{"long":"38.9724315","lat":"24.7573327"}';
+        let object3Str = '{"long":39.9724315,"lat":25.7573327}';
 
         storage.insert(1, object1);
         storage.insert(2, object2Str);
@@ -89,20 +89,20 @@ describe('Storage testing', () => {
     });
 
     it('insert update already existing', function() {
-        var object1 = {long:37.9724315,lat:23.7573327};
+        let object1 = {long:37.9724315,lat:23.7573327};
 
-        var insertedObject1 = storage.insert(10, object1);
+        let insertedObject1 = storage.insert(10, object1);
 
         assert.equal(_.size(storage.locationDataPerID), 1);
-        var transformedObject1 =  storage.locationDataPerID.get(10);
+        let transformedObject1 =  storage.locationDataPerID.get(10);
         assert.equal(transformedObject1.long, 37.9724315);
 
-        var object2 = {long:38.9724315,lat:23.7573327};
+        let object2 = {long:38.9724315,lat:23.7573327};
 
-        var insertedObject2 = storage.insert(10, object2);
+        let insertedObject2 = storage.insert(10, object2);
 
         assert.equal(_.size(storage.locationDataPerID), 1);
-        var transformedObject2 =  storage.locationDataPerID.get(10);
+        let transformedObject2 =  storage.locationDataPerID.get(10);
         assert.equal(transformedObject2.long, 38.9724315);
 
         assert.notEqual(transformedObject1, transformedObject2);
@@ -110,20 +110,20 @@ describe('Storage testing', () => {
     });
 
     it('insert update already existing - ignored - no movement', function() {
-        var object1 = {long:37.9724315,lat:23.7573327};
+        let object1 = {long:37.9724315,lat:23.7573327};
 
-        var insertedObject1 = storage.insert(10, object1);
+        let insertedObject1 = storage.insert(10, object1);
 
         assert.equal(_.size(storage.locationDataPerID), 1);
-        var transformedObject1 =  storage.locationDataPerID.get(10);
+        let transformedObject1 =  storage.locationDataPerID.get(10);
         assert.equal(transformedObject1.long, 37.9724315);
 
-        var object2 = {long:37.9724315,lat:23.7573327};
+        let object2 = {long:37.9724315,lat:23.7573327};
 
-        var insertedObject2 = storage.insert(10, object2);
+        let insertedObject2 = storage.insert(10, object2);
 
         assert.equal(_.size(storage.locationDataPerID), 1);
-        var transformedObject2 =  storage.locationDataPerID.get(10);
+        let transformedObject2 =  storage.locationDataPerID.get(10);
         assert.equal(transformedObject2.long, 37.9724315);
 
         assert.equal(transformedObject1, transformedObject2);
@@ -131,8 +131,8 @@ describe('Storage testing', () => {
     });
 
     it('insert two element and call clear', function() {
-        var object1 = {long:37.9724315,lat:23.7573327};
-        var object2 = {long:32.9724315,lat:23.7573327};
+        let object1 = {long:37.9724315,lat:23.7573327};
+        let object2 = {long:32.9724315,lat:23.7573327};
 
         storage.insert(10, object1);
         storage.insert(20, object2);
@@ -143,7 +143,7 @@ describe('Storage testing', () => {
     });
 
     it('6 elements and get 2 elements that are older than 10 seconds', function() {
-        var objectArray = [];
+        let objectArray = [];
         objectArray.push( {long:31.9724315,lat:23.7573327} );
         objectArray.push( {long:32.9724315,lat:23.7573327} );
         objectArray.push( {long:33.9724315,lat:23.7573327} );
@@ -172,13 +172,13 @@ describe('Storage testing', () => {
         assert.equal(_.size(storage.locationDataPerID), 6);
 
         epocMsec = 1522951212500;
-        var oldObjects = storage.getRecordsOlderThan(10000);
+        let oldObjects = storage.getRecordsOlderThan(10000);
 
         assert.equal(_.size(oldObjects), 2);
     });
 
     it('6 elements and delete the 2 elements that are older than 10 seconds', function() {
-        var objectArray = [];
+        let objectArray = [];
         objectArray.push( {long:31.9724315,lat:23.7573327} );
         objectArray.push( {long:32.9724315,lat:23.7573327} );
         objectArray.push( {long:33.9724315,lat:23.7573327} );

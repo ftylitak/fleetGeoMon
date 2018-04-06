@@ -11,7 +11,7 @@ class DroneLocationStorage{
         if(messageObj === undefined ||
             !_.has(messageObj, 'long') || !_.has(messageObj, 'lat'))
         {
-            console.log('No valid object, ignoring');
+            console.log('No valid object, ignoring: ' + JSON.stringify(messageObj));
             return undefined;
         }
 
@@ -44,7 +44,7 @@ class DroneLocationStorage{
                 }
             }
             else
-                console.log(`rejecting message due to wrong format: ${id}`);
+                console.log(`rejecting message due to wrong format: ${id} -> ${message}`);
         }
         else
             messageObj = message;

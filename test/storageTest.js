@@ -55,13 +55,6 @@ describe('Storage testing', () => {
         assert.equal(_.size(storage.locationDataPerID), 0);
     });
 
-    it('insert 1 valid location string - no quotes', function() {
-        var objectStr = '{long:37.9724315,lat:23.7573327}';
-        var transformedObject = storage.insert(1, objectStr);
-        assert.isUndefined(transformedObject);
-        assert.equal(_.size(storage.locationDataPerID), 0);
-    });
-
     it('insert valid location object', function() {
         var objectStr = {long:37.9724315,lat:23.7573327};
         var transformedObject = storage.insert(1, objectStr);

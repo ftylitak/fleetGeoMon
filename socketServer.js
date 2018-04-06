@@ -2,9 +2,13 @@ var net = require('net');
 var storage = require('./storage').locationStorage;
 const crypto = require('crypto');
 
-let PORT = 8088;
+const DRONE_PORT = 8088;
+const DASHBOARD_PORT = 8081;
 
 var droneSocketServer = net.createServer();
+var dashboardSocketServer = net.createServer();
+
+var activeDashboardSockets = new Map();
 
 droneSocketServer.on('connection', function(socket) {
     socket.id = crypto.randomBytes(16).toString('base64');
@@ -16,12 +20,30 @@ droneSocketServer.on('connection', function(socket) {
         for(let locationInfo of locationInfoArray)
         {
             let locationObject = storage.insert(socket.id, locationInfo);
-            // if(locationObject !== undefined)
-            //     console.log('will be redirected');
+            if(locationObject !== undefined)
+                activeDashboardSockets.forEach(async (value) => {
+                    value.write(JSON.stringify(locationObject) + '\n');
+                });
         }
     });
     socket.on('end', function() {
-        console.log('client disconnected');
+        console.log(`drone socket[${socket.id}] disconnected`);
+    });
+
+    socket.on('error', function (e) {
+        if (e.code == 'EADDRINUSE') {
+            console.log('Address in use.');
+        }
+    });
+});
+
+dashboardSocketServer.on('connection', function(socket) {
+    socket.id = crypto.randomBytes(8).toString('base64');
+    activeDashboardSockets.set(socket.id, socket);
+
+    socket.on('end', function() {
+        console.log(`dashboard socket[${socket.id}] disconnected`);
+        activeDashboardSockets.delete(socket.id);
     });
     socket.on('error', function (e) {
         if (e.code == 'EADDRINUSE') {
@@ -30,10 +52,19 @@ droneSocketServer.on('connection', function(socket) {
     });
 });
 
-var droneSocketServerApp = droneSocketServer.listen(PORT,function() { //'listening' listener
+var droneSocketServerApp = droneSocketServer.listen(DRONE_PORT,function() { //'listening' listener
     let host = droneSocketServer.address().address;
     let port = droneSocketServer.address().port;
     console.log(`drone socket server listening at http://${host}:${port}`);
 });
 
-module.export = droneSocketServerApp;
+var dashboardSocketServerApp = dashboardSocketServer.listen(DASHBOARD_PORT,function() { //'listening' listener
+    let host = dashboardSocketServer.address().address;
+    let port = dashboardSocketServer.address().port;
+    console.log(`dashboard socket server listening at http://${host}:${port}`);
+});
+
+module.export = [
+    droneSocketServerApp,
+    dashboardSocketServerApp
+];

@@ -58,10 +58,11 @@ class DroneLocationStorage{
     getRecordsOlderThan(mSeconds) {
         let now = Date.now();
         let result = [];
-        for(let record of  this.locationDataPerID.values()) {
+
+        this.locationDataPerID.forEach((record) => {
             if((now - record.timestamp) > mSeconds)
                 result.push(record.id);
-        }
+        });
         return result;
 
         //to be investigated why it does not work

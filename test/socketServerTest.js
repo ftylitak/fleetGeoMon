@@ -167,4 +167,50 @@ describe('HTTP server', () => {
 
         _sendRandomLocationDataOnCollection(socketArray, times);
     });
+
+    it('receive sample from multiple drone and validate reception - handle message fragmentation', function(done) {
+        this.timeout(5000);
+        assert.equal(_.size(storage.locationDataPerID), 0);
+
+        _prepareDashboardSocket();
+        let socketArray = _createDroneSockets(20);
+        const times = 2000;
+
+        //let successfullReceptions = 0;
+        let countObjects = 0;
+        let fragmentedTermination = '';
+        dashboardClient.on('data', function(data) {
+            let locationInfoArray = data.toString().trim().split('\n');
+            if(locationInfoArray === undefined)
+                return;
+
+            if(fragmentedTermination !== '') {
+                locationInfoArray[0] = fragmentedTermination + locationInfoArray[0];
+                fragmentedTermination = '';
+            }
+
+            let lastObject = locationInfoArray.slice(-1)[0];
+            try {
+                JSON.parse(lastObject);
+            } catch (e) {
+                fragmentedTermination = lastObject;
+                locationInfoArray.pop();
+            }
+
+            for(let receivedObject of locationInfoArray)
+            {
+                try {
+                    JSON.parse(receivedObject);
+                    countObjects++;
+                } catch (e) {
+                    //ignore
+                }
+            }
+
+            if(countObjects == times)
+                done();
+        });
+
+        _sendRandomLocationDataOnCollection(socketArray, times);
+    });
 });
